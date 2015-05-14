@@ -29,7 +29,7 @@ CardLayer *card_layer_create(GRect frame) {
 
     card_layer->name_text_layer = text_layer_create(GRect(0, 0, PEBBLE_WIDTH, TEXTBOX_HEIGHT));
     text_layer_set_background_color(card_layer->name_text_layer, GColorBlack);
-    text_layer_set_font(card_layer->name_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
+    text_layer_set_font(card_layer->name_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_14_BOLD));
     text_layer_set_overflow_mode(card_layer->name_text_layer, GTextOverflowModeTrailingEllipsis);
     text_layer_set_text_alignment(card_layer->name_text_layer, GTextAlignmentCenter);
     text_layer_set_text_color(card_layer->name_text_layer, GColorWhite);
