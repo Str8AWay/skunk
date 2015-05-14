@@ -36,7 +36,7 @@ CardLayer *card_layer_create(GRect frame) {
     layer_add_child(card_layer->layer, (Layer *)card_layer->name_text_layer);
 
 
-    card_layer->value_text_layer = text_layer_create(GRect(0, 115, PEBBLE_WIDTH, TEXTBOX_HEIGHT));
+    card_layer->value_text_layer = text_layer_create(GRect(0, 115, PEBBLE_WIDTH, TEXTBOX_HEIGHT)); // TODO: Fix magic number
     text_layer_set_background_color(card_layer->value_text_layer, GColorWhite);
     text_layer_set_font(card_layer->value_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
     text_layer_set_overflow_mode(card_layer->value_text_layer, GTextOverflowModeTrailingEllipsis);
@@ -82,13 +82,18 @@ static void draw_barcode_matrix(CardLayer *card_layer, GContext* ctx) {
             if (card_layer->barcode_data[current_byte] & (1 << p)) {
                 // Non-linear barcodes are scaled 2x to save persistent storage space.
 
-                point_x = ( PEBBLE_WIDTH/2 - card_layer->barcode_width ) + raw_x * 2;
-                point_y = ( PEBBLE_HEIGHT/2 - card_layer->barcode_height ) + raw_y * 2;
+                point_x = ( PEBBLE_WIDTH/2 - 3*card_layer->barcode_width/2 ) + raw_x * 3;
+                point_y = ( PEBBLE_HEIGHT/2 - 3*card_layer->barcode_height/2 ) + raw_y * 3;
 
                 graphics_draw_pixel(ctx, GPoint(point_x, point_y));
+                graphics_draw_pixel(ctx, GPoint(point_x, point_y + 1));
+                graphics_draw_pixel(ctx, GPoint(point_x, point_y + 2));
                 graphics_draw_pixel(ctx, GPoint(point_x + 1, point_y));
                 graphics_draw_pixel(ctx, GPoint(point_x + 1, point_y + 1));
-                graphics_draw_pixel(ctx, GPoint(point_x, point_y + 1));
+                graphics_draw_pixel(ctx, GPoint(point_x + 1, point_y + 2));
+                graphics_draw_pixel(ctx, GPoint(point_x + 2, point_y));
+                graphics_draw_pixel(ctx, GPoint(point_x + 2, point_y + 1));
+                graphics_draw_pixel(ctx, GPoint(point_x + 2, point_y + 2));
             }
 
             raw_x++;
